@@ -4,9 +4,9 @@ from instagrapi import Client as InstaClient
 from pyrogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 #env Change This to your varible's
-TELEGRAM_API_ID = ""  #here put your api id
-TELEGRAM_API_HASH = ""  #hash id
-TELEGRAM_BOT_TOKEN = "" #bot token
+TELEGRAM_API_ID = "20836266"  #here put your api id
+TELEGRAM_API_HASH = "bbdd206f92e1ca4bc4935b43dfd4a2a1"  #hash id
+TELEGRAM_BOT_TOKEN = "8054568983:AAHWTggsclivHKu8JgZRIyY8Gfd1RhEnVfg" #bot token
 INSTAGRAM_USERNAME = "" #instagram user
 INSTAGRAM_PASSWORD = "" # password the instagram account
 AUTHORIZED_USERS_FILE = "authorized_users.txt" # this file save allowed users id to use bot 
@@ -23,8 +23,8 @@ app = Client("my_bot", api_id=TELEGRAM_API_ID, api_hash=TELEGRAM_API_HASH, bot_t
 
 main_menu_fa = ReplyKeyboardMarkup(
     [
-        [KeyboardButton("📤 ارسال یک Reels")],
-        [KeyboardButton("📤 ارسال چند Reels همزمان")]
+        [KeyboardButton("📤 Upload a Reels")],
+        [KeyboardButton("📤 Upload Multiple Reels")]
     ],
     resize_keyboard=True
 )
@@ -79,7 +79,7 @@ async def start(client, message):
 
         if language == "fa":
             await message.reply(
-                f"⛔ شما مجاز به استفاده از این ربات نیستید.\n\n🆔 شناسه شما: {user_id}"
+                f"🔎You are not authorized to use this bot.\n\n🆔 Your user ID: {user_id}"
             )
         else:
             await message.reply(
@@ -92,7 +92,7 @@ async def start(client, message):
 
     if language == "fa":
         await message.reply(
-            "👋 به ربات خوش آمدید!\nبرای آپلود یک Reels یا چند Reels همزمان، روی دکمه‌های زیر کلیک کنید.",
+            "👋 Welcome to the bot!\nClick on the buttons below to upload a Reels or multiple Reels at once.",
             reply_markup=main_menu_fa
         )
     else:
@@ -102,14 +102,14 @@ async def start(client, message):
         )
 
 
-@app.on_message(filters.text & filters.regex("^📤 ارسال یک Reels$"))
+@app.on_message(filters.text & filters.regex("^📤 Upload a Reels$"))
 async def request_single_reels_fa(client, message):
     user_id = message.from_user.id
     if not is_authorized(user_id):
-        await message.reply("⛔ شما مجاز به استفاده از این ربات نیستید.")
+        await message.reply("You are not authorized to use this bot.")
         return
 
-    await message.reply("🎥 لطفاً فیلم خود را ارسال کنید.")
+    await message.reply("🎥 Please send your video.")
 
 @app.on_message(filters.text & filters.regex("^📤 Upload a Reels$"))
 async def request_single_reels_en(client, message):
@@ -121,14 +121,14 @@ async def request_single_reels_en(client, message):
     await message.reply("🎥 Please send your video.")
 
 
-@app.on_message(filters.text & filters.regex("^📤 ارسال چند Reels همزمان$"))
+@app.on_message(filters.text & filters.regex("^📤 Upload Multiple Reels"))
 async def request_multiple_reels_fa(client, message):
     user_id = message.from_user.id
     if not is_authorized(user_id):
-        await message.reply("⛔ شما مجاز به استفاده از این ربات نیستید.")
+        await message.reply("⛔ You are not authorized to use this bot.")
         return
 
-    await message.reply("🎥 لطفاً چند ویدئوی خود را ارسال کنید. ربات به ترتیب و با فاصله 30 ثانیه آنها را آپلود خواهد کرد.")
+    await message.reply("🎥  Please send your videos. The bot will upload them one by one with a 30-second gap.")
 
 @app.on_message(filters.text & filters.regex("^📤 Upload Multiple Reels$"))
 async def request_multiple_reels_en(client, message):
@@ -144,7 +144,7 @@ async def request_multiple_reels_en(client, message):
 async def upload_multiple_reels(client, message):
     user_id = message.from_user.id
     if not is_authorized(user_id):
-        await message.reply("⛔ شما مجاز به استفاده از این ربات نیستید.")
+        await message.reply("⛔ Please.")
         return
 
     try:
@@ -163,7 +163,7 @@ async def upload_multiple_reels(client, message):
 
         
         if language == "fa":
-            await message.reply("✅ فیلم با موفقیت به عنوان Reels در اینستاگرام پست شد.")
+            await message.reply("✅ The video was successfully uploaded as a Reels on Instagram.")
         else:
             await message.reply("✅ The video was successfully uploaded as a Reels on Instagram.")
 
